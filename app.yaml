@@ -1,0 +1,45 @@
+runtime: python311
+
+instance_class: F2
+
+entrypoint: gunicorn -b :$PORT run:app
+
+env_variables:
+  FLASK_ENV: 'production'
+  MONGODB_URI: 'mongodb+srv://bandibannu773_db_user:bannu824@cluster0.b6n4llo.mongodb.net/task_manager?retryWrites=true&w=majority&appName=Cluster0'
+  MONGODB_DATABASE: 'task_manager'
+  
+  # Google OAuth - Update these with your actual values
+  GOOGLE_CLIENT_ID: '50297190088-a6otf5pf0qqjl9fa4rpdb0qv6te245k6.apps.googleusercontent.com'
+  GOOGLE_CLIENT_SECRET: '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'
+  
+  # Gemini API
+  GEMINI_API_KEY: 'AIzaSyA_kylj8ACMrsy7YhGC5wAirZlgb9oKlpM'
+  
+  # JWT Secrets - IMPORTANT: Change these to secure random values
+  SECRET_KEY: 'your-production-secret-key-change-this'
+  JWT_SECRET_KEY: 'your-production-jwt-secret-key-change-this'
+  JWT_ACCESS_TOKEN_EXPIRES: '86400'
+  
+  # URLs - Will be updated after first deployment
+  GOOGLE_REDIRECT_URI: 'https://fleet-ivy-478805-a7.uc.r.appspot.com/api/auth/callback'
+  BACKEND_URL: 'https://fleet-ivy-478805-a7.uc.r.appspot.com'
+  FRONTEND_URL: 'https://kairo-frontend-50297190088.us-central1.run.app'
+  
+  # CORS
+  CORS_ORIGINS: 'https://kairo-frontend-50297190088.us-central1.run.app'
+  
+  # Email and Meeting Settings
+  EMAIL_SYNC_INTERVAL: '300'
+  MEETING_POLL_INTERVAL: '300'
+  MAX_MEETINGS_PER_POLL: '5'
+
+automatic_scaling:
+  min_instances: 0
+  max_instances: 5
+  target_cpu_utilization: 0.65
+
+handlers:
+- url: /.*
+  script: auto
+  secure: always
