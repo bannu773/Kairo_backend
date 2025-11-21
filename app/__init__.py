@@ -22,12 +22,13 @@ def create_app(config_name='default'):
     from app.config import config
     app.config.from_object(config[config_name])
     
-    # Initialize CORS
+    # Initialize CORS - Allow all origins (for testing, restrict in production)
     CORS(app, resources={
         r"/api/*": {
-            "origins": app.config['CORS_ORIGINS'],
+            "origins": "*",
             "methods": ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-            "allow_headers": ["Content-Type", "Authorization"]
+            "allow_headers": ["Content-Type", "Authorization"],
+            "expose_headers": ["Content-Type", "Authorization"]
         }
     })
     
